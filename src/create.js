@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js';
-import { requireAuthOrRedirect } from './session-gate.js';
 
 const url = import.meta.env.VITE_SUPABASE_URL;
 const anon = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -11,9 +10,7 @@ if (!url || !anon) {
 
 const supabase = createClient(url, anon);
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const ok = await requireAuthOrRedirect();
-  if (!ok) return;
+document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('create-form');
   const nameInput = document.getElementById('name');
   const statusEl = document.getElementById('status');

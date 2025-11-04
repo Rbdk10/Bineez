@@ -40,9 +40,6 @@ Run SQL in `supabase/migrations` in order. See `supabase/README_DB.md`.
 - lib/supabaseClient.mjs — Supabase web client
 - src/main.js — homepage entry
 - src/create.js — create page logic using env vars
-- src/auth.js — email/password auth (sign-in & register)
-- src/session-gate.js — redirect to /auth when not signed in
-- public/auth/index.html — authentication page
 
 
 
