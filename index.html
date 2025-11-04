@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build ranked lists and tournament brackets in seconds. No signup required.">
+  <title>Bineez - Create Rankings & Tournament Brackets Free</title>
+  <style>
+    :root {
+      --primary: #003366;
+      --accent: #0099CC;
+      --light: #D6E4F0;
+      --background: #F0F4F8;
+      --white: #FFFFFF;
+      --text: #333333;
+      --text-light: #666666;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --radius: 6px;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 4px 12px rgba(0, 153, 204, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--background);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 2em;
+      font-weight: 600;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      padding: 12px 30px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-hover);
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 12px 30px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: scale(1.05);
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--white);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: var(--space-xl);
+      list-style: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: var(--space-sm);
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: var(--primary);
+      color: var(--white);
+      padding: 64px var(--space-lg);
+      text-align: center;
+    }
+
+    .hero h1 {
+      color: var(--white);
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-subheading {
+      font-size: 1.25em;
+      line-height: 1.5;
+      margin-bottom: var(--space-xl);
+      opacity: 0.95;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-mockup {
+      display: flex;
+      gap: var(--space-xl);
+      justify-content: center;
+      margin: var(--space-xl) 0;
+      flex-wrap: wrap;
+    }
+
+    .mockup-card {
+      background: var(--white);
+      padding: var(--space-lg);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .mockup-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      font-size: 1.1em;
+    }
+
+    .ranking-list {
+      text-align: left;
+      color: var(--text);
+    }
+
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      background: var(--background);
+      border-radius: var(--radius);
+    }
+
+    .ranking-number {
+      background: var(--accent);
+      color: var(--white);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .bracket {
+      display: flex;
+      gap: var(--space-lg);
+      justify-content: space-between;
+      color: var(--text);
+    }
+
+    .bracket-round {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      min-height: 200px;
+    }
+
+    .bracket-team {
+      background: var(--background);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--accent);
+      font-size: 0.9em;
+      margin: 4px 0;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-lg);
+    }
+
+    .feature-pills {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-lg);
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.2);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 500;
+    }
+
+    .social-proof {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
+    /* Features Section */
+    .features {
+      background: var(--background);
+      padding: 64px var(--space-lg);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .feature-card {
+      background: var(--white);
+      padding: var(--space-lg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-bottom: 3px solid var(--accent);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 153, 204, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3em;
+      margin-bottom: var(--space-md);
+    }
+
+    .feature-card h3 {
+      margin-bottom: var(--space-md);
+    }
+
+    .feature-card p {
+      color: var(--text-light);
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+      background: var(--white);
+      padding: 64px var(--space-lg);
+    }
+
+    .dual-column {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .column-card {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius);
+    }
+
+    .column-card h3 {
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .step {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+      align-items: flex-start;
+    }
+
+    .step-number {
+      background: var(--accent);
+      color: var(--white);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2em;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      color: var(--primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .step-content p {
+      color: var(--text-light);
+      font-size: 0.9em;
+    }
+
+    /* Use Cases Section */
+    .use-cases {
+      background: var(--light);
+      padding: 64px var(--space-lg);
+    }
+
+    .use-cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+    }
+
+    .use-case-badge {
+      background: var(--white);
+      padding: var(--space-lg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .use-case-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 153, 204, 0.2);
+    }
+
+    .use-case-icon {
+      font-size: 2.5em;
+      margin-bottom: var(--space-sm);
+    }
+
+    .use-case-label {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Feature Comparison Section */
+    .comparison {
+      background: var(--white);
+      padding: 64px var(--space-lg);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+
+    .comparison-card {
+      background: var(--background);
+      padding: var(--space-lg);
+      border-radius: var(--radius);
+      border-top: 4px solid var(--accent);
+    }
+
+    .comparison-card h3 {
+      margin-bottom: var(--space-md);
+    }
+
+    .comparison-card p {
+      color: var(--text-light);
+    }
+
+    /* CTA Section */
+    .cta {
+      background: var(--light);
+      padding: 64px var(--space-lg);
+      text-align: center;
+    }
+
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta h2 {
+      margin-bottom: var(--space-md);
+    }
+
+    .cta-subtext {
+      font-size: 1.1em;
+      color: var(--text-light);
+      margin-bottom: var(--space-xl);
+    }
+
+    .cta-features {
+      display: flex;
+      gap: var(--space-lg);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: var(--space-md);
+      font-size: 0.9em;
+      color: var(--text-light);
+    }
+
+    .cta-feature {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary);
+      color: rgba(255, 255, 255, 0.8);
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+
+    .footer-column h4 {
+      color: var(--white);
+      margin-bottom: var(--space-md);
+      font-size: 1.1em;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-column a {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .footer-column a:hover {
+      color: var(--white);
+    }
+
+    .footer-logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--white);
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-tagline {
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.9em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      h2 {
+        font-size: 1.75em;
+      }
+
+      h3 {
+        font-size: 1.25em;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .hero-mockup {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        text-align: center;
+      }
+
+      .bracket {
+        gap: var(--space-sm);
+      }
+
+      .bracket-team {
+        font-size: 0.75em;
+        padding: 4px 8px;
+      }
+
+      .features-grid,
+      .use-cases-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">Bineez</div>
+      <div class="nav-links">
+        <ul class="nav-menu">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <a href="#cta" class="btn-primary">Get Started Free</a>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Create Rankings & Tournament Brackets in Seconds</h1>
+      <p class="hero-subheading">The easiest way to rank anything or run tournaments — movies, products, teams, or ideas. Vote, compete, and discover what's truly #1.</p>
+
+      <div class="hero-mockup">
+        <div class="mockup-card">
+          <div class="mockup-title">Simple Rankings</div>
+          <div class="ranking-list">
+            <div class="ranking-item">
+              <div class="ranking-number">1</div>
+              <div>The Dark Knight</div>
+            </div>
+            <div class="ranking-item">
+              <div class="ranking-number">2</div>
+              <div>Inception</div>
+            </div>
+            <div class="ranking-item">
+              <div class="ranking-number">3</div>
+              <div>Interstellar</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mockup-card">
+          <div class="mockup-title">Tournament Bracket</div>
+          <div class="bracket">
+            <div class="bracket-round">
+              <div class="bracket-team">Team A</div>
+              <div class="bracket-team">Team B</div>
+              <div class="bracket-team">Team C</div>
+              <div class="bracket-team">Team D</div>
+            </div>
+            <div class="bracket-round">
+              <div class="bracket-team">Winner 1</div>
+              <div class="bracket-team">Winner 2</div>
+            </div>
+            <div class="bracket-round">
+              <div class="bracket-team">Champion</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-buttons">
+        <a href="#cta" class="btn-primary">Start Free →</a>
+        <a href="#examples" class="btn-secondary">View Examples</a>
+      </div>
+
+      <div class="feature-pills">
+        <span class="pill">🏆 Rankings</span>
+        <span class="pill">⚔️ Tournaments</span>
+        <span class="pill">📊 Voting</span>
+      </div>
+
+      <p class="social-proof">Join 50,000+ rankers and tournament organizers worldwide</p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Everything You Need to Rank & Compete</h2>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Drag & Drop Lists</h3>
+          <p>Create ranked lists in seconds. Just add items, drag to reorder, and share your definitive rankings.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3>Run Competitions</h3>
+          <p>Build single or double elimination brackets. Perfect for March Madness, gaming leagues, or office contests.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>Instant Sharing</h3>
+          <p>Get unique links for rankings and brackets. Let others vote, fill out brackets, or track tournament progress live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <div class="container">
+      <h2 class="section-title">Two Powerful Tools, One Platform</h2>
+
+      <div class="dual-column">
+        <div class="column-card">
+          <h3>Rankings</h3>
+
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Add Items</h4>
+              <p>Type or paste what you want to rank</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Drag to Order</h4>
+              <p>Arrange from best to worst</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Share & Vote</h4>
+              <p>Let others vote and compare</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="column-card">
+          <h3>Tournaments</h3>
+
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Setup Bracket</h4>
+              <p>Choose bracket size (4, 8, 16, 32+ teams)</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Fill Teams</h4>
+              <p>Add participants or randomize seeds</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Track Results</h4>
+              <p>Update scores and crown your champion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section id="examples" class="use-cases">
+    <div class="container">
+      <h2 class="section-title">Rank or Compete With Anything</h2>
+
+      <div class="use-cases-grid">
+        <div class="use-case-badge">
+          <div class="use-case-icon">🎬</div>
+          <div class="use-case-label">Movies & TV Shows</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">🎮</div>
+          <div class="use-case-label">Gaming Tournaments</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">🏀</div>
+          <div class="use-case-label">Sports Brackets</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">🍕</div>
+          <div class="use-case-label">Restaurant Rankings</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">💼</div>
+          <div class="use-case-label">Product Features</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">🎵</div>
+          <div class="use-case-label">Best Albums</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">🏆</div>
+          <div class="use-case-label">Office Competitions</div>
+        </div>
+
+        <div class="use-case-badge">
+          <div class="use-case-icon">📚</div>
+          <div class="use-case-label">Book Lists</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Comparison Section -->
+  <section class="comparison">
+    <div class="container">
+      <h2 class="section-title">Rankings + Tournaments = Endless Possibilities</h2>
+
+      <div class="comparison-grid">
+        <div class="comparison-card">
+          <h3>Rankings</h3>
+          <p>Best for definitive lists, subjective opinions, and top 10s</p>
+        </div>
+
+        <div class="comparison-card">
+          <h3>Tournaments</h3>
+          <p>Best for head-to-head battles, eliminations, and finding winners</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="cta" class="cta">
+    <div class="cta-content">
+      <h2>Ready to Settle the Debate?</h2>
+      <p class="cta-subtext">Create your first ranking or tournament bracket now — no signup required</p>
+      <a href="#" class="btn-primary">Create Free Now →</a>
+      <div class="cta-features">
+        <span class="cta-feature">✓ No credit card</span>
+        <span class="cta-feature">✓ No registration</span>
+        <span class="cta-feature">✓ Forever free</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="pricing">
+    <div class="footer-content">
+      <div class="footer-column">
+        <div class="footer-logo">Bineez</div>
+        <p class="footer-tagline">Rank. Compete. Decide.</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Create Rankings</a></li>
+          <li><a href="#">Tournament Brackets</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Bineez. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
