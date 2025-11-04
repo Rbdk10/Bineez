@@ -130,3 +130,4 @@ create policy "Users can delete their own votes" on public.match_votes
 for delete using (voter_id = auth.uid());
 
 
+

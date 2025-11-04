@@ -25,3 +25,4 @@ Run the files in numerical order:
   - Any authenticated user to insert a single vote per match on public rankings
 - Adjust policies as your product rules evolve (e.g., lock voting, private tournaments, team-only access).
 
+

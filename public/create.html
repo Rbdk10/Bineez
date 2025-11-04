@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Rankings • Bineez</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="/src/create.js"></script>
+  </head>
+  <body>
+    <header class="header" role="banner">
+      <div class="container">
+        <h1>Create Rankings</h1>
+      </div>
+    </header>
+    <main class="container" role="main">
+      <section class="card" aria-label="Create Rankings Form">
+        <div style="margin-bottom: 16px;">
+          <a href="./index.html" style="text-decoration:none;color:#0099CC">← Back</a>
+        </div>
+        <form id="create-form">
+          <div style="margin-bottom: 16px;">
+            <label for="name" style="display:block;margin-bottom:8px;color:#003366;font-weight:600;">Name</label>
+            <input id="name" name="name" type="text" required style="width:100%;padding:12px;border:2px solid #D6E4F0;border-radius:6px;font-size:16px;" placeholder="e.g., Best Coffee Shops" />
+          </div>
+          
+          <div>
+            <button type="submit" style="background:#0099CC;color:#fff;padding:12px 20px;border:none;border-radius:6px;font-weight:600;cursor:pointer;">Save</button>
+          </div>
+          <p id="status" style="margin-top:12px;"></p>
+        </form>
+      </section>
+    </main>
+  </body>
+  </html>
+
+

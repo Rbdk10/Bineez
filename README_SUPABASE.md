@@ -40,3 +40,4 @@ It validates env vars and attempts a minimal call. If you have an Edge Function 
 - Never commit `.env` (already in `.gitignore`).
 - For server-only keys (service_role), create a separate server-side client and never expose it to the browser.
 
+

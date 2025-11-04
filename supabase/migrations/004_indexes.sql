@@ -18,3 +18,4 @@ create index if not exists idx_votes_match on public.match_votes(match_id);
 create index if not exists idx_votes_voter on public.match_votes(voter_id);
 
 
+

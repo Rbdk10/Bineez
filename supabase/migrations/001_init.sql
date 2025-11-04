@@ -112,3 +112,4 @@ left join public.match_votes v on v.match_id = m.id
 group by m.id, m.ranking_id;
 
 
+
